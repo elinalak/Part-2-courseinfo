@@ -58,17 +58,16 @@ const App = () => {
     event.preventDefault();
 
     let result = "no";
-    // eslint-disable-next-line
-    persons.map(function (person, index) {
-      if (filtered === person.name) {
+
+    persons.map(function (person) {
+      if (person.name.startsWith(filtered) === true) {
         setFiltered(`${person.name} ${person.number}`);
         result = person.name;
-
-        return <li key={index}>{person.number}</li>;
+        return <li key={person.id}>{person.number}</li>;
       }
     });
 
-    return <p> is {result}</p>;
+    return <ul> is {result}</ul>;
   };
 
   return (
