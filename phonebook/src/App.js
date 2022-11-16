@@ -15,6 +15,13 @@ const App = () => {
 
     setPersons(persons.concat(personObject));
     setNewName("");
+    // eslint-disable-next-line
+    persons.map(function (person, index) {
+      if (person.name === newName) {
+        alert(`${person.name} is already added to phonebook`);
+        return <li key={index}>{person}</li>;
+      }
+    });
   };
 
   const handleNameChange = (event) => {
