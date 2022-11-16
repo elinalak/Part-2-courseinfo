@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Header from "./Header";
+import Filter from "./Filter";
+import PersonForm from "./PersonForm";
+import Persons from "./Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -29,6 +33,7 @@ const App = () => {
     persons.map(function (person, index) {
       if (person.name === newName) {
         alert(`${person.name} is already added to phonebook`);
+        setPersons(persons.concat(""));
         return <li key={index}>{person}</li>;
       }
     });
@@ -53,6 +58,7 @@ const App = () => {
     event.preventDefault();
 
     let result = "no";
+    // eslint-disable-next-line
     persons.map(function (person, index) {
       if (filtered === person.name) {
         setFiltered(`${person.name} ${person.number}`);
@@ -67,33 +73,22 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={filterPerson}>
-        filter shown with <input type="search" onChange={handleFilterChange} />{" "}
-        press enter
-      </form>
-      <p> {filtered}</p>
-      <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number:{" "}
-          <input value={newNumber} type="tel" onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map((person, index) => (
-          <li key={index}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <Header text="Phonebook" />
+      <Filter
+        handleFilterChange={handleFilterChange}
+        filtered={filtered}
+        filterPerson={filterPerson}
+      />
+      <Header text="Add a new" />
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
+      <Header text="Numbers" />
+      <Persons persons={persons} />
     </div>
   );
 };
