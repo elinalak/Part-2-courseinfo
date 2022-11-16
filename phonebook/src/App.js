@@ -58,7 +58,7 @@ const App = () => {
     event.preventDefault();
 
     let result = "no";
-
+    // eslint-disable-next-line
     persons.map(function (person) {
       if (person.name.startsWith(filtered) === true) {
         setFiltered(`${person.name} ${person.number}`);
