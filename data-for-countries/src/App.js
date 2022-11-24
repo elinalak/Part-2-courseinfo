@@ -4,7 +4,7 @@ import axios from "axios";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [filtered, setFiltered] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(["searching..."]);
 
   useEffect(() => {
     console.log("effect");
@@ -16,18 +16,25 @@ const App = () => {
   }, []);
   console.log("render", countries.length, "countries");
 
-  const searchCountry = (event) => {
+  const searchCountry = (event, result) => {
     event.preventDefault();
 
-    countries.forEach((element) => {
+    countries.forEach((element, index) => {
       if (
+        element.name.common.toLowerCase().includes(filtered.toLowerCase()) ===
+          true ||
         element.name.official.toLowerCase().includes(filtered.toLowerCase()) ===
-        true
-      )
-        setResult(element.name.official);
+          true
+      ) {
+        result = element.name.official;
+        setResult(result);
 
-      return <li key={countries}>{element.name.official} </li>;
+        console.log(result, `result is`);
+        return <li key={index}>{result}</li>;
+      }
     });
+
+    console.log(result, `the lastest result`);
 
     return (
       <>
@@ -41,14 +48,15 @@ const App = () => {
     setFiltered(event.target.value);
   };
 
-  return (
-    <>
-      <form onSubmit={searchCountry}>
-        <input type="search" onChange={handleChange} /> and press Enter
-      </form>
-      <ul>country is {result}</ul>
-    </>
-  );
+  if (result)
+    return (
+      <>
+        <form onSubmit={searchCountry}>
+          <input type="search" onChange={handleChange} /> and press Enter
+        </form>
+        <ul>country is {result}</ul>
+      </>
+    );
 };
 
 export default App;
