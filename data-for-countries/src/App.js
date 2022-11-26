@@ -22,13 +22,13 @@ const App = () => {
   return (
     <>
       <form>
-        <input type="search" onChange={handleChange} /> and press Enter
+        find countries <input type="search" onChange={handleChange} />
       </form>
       <ul>
-        country is{" "}
         {countries.map(function (country, index) {
           if (query.length === 0)
             return <li key={index}>{country.name.official}</li>;
+
           if (
             country.name.official
               .toLowerCase()
