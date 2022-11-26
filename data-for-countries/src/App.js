@@ -3,8 +3,7 @@ import axios from "axios";
 
 const App = () => {
   const [countries, setCountries] = useState([]);
-  const [filtered, setFiltered] = useState("");
-  const [result, setResult] = useState(["searching..."]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     console.log("effect");
@@ -16,47 +15,30 @@ const App = () => {
   }, []);
   console.log("render", countries.length, "countries");
 
-  const searchCountry = (event, result) => {
-    event.preventDefault();
-
-    countries.forEach((element, index) => {
-      if (
-        element.name.common.toLowerCase().includes(filtered.toLowerCase()) ===
-          true ||
-        element.name.official.toLowerCase().includes(filtered.toLowerCase()) ===
-          true
-      ) {
-        result = element.name.official;
-        setResult(result);
-
-        console.log(result, `result is`);
-        return <li key={index}>{result}</li>;
-      }
-    });
-
-    console.log(result, `the lastest result`);
-
-    return (
-      <>
-        <ul>{result}</ul>
-      </>
-    );
-  };
-
   const handleChange = (event) => {
-    console.log(event.target.value);
-    setFiltered(event.target.value);
+    setQuery(event.target.value);
   };
 
-  if (result)
-    return (
-      <>
-        <form onSubmit={searchCountry}>
-          <input type="search" onChange={handleChange} /> and press Enter
-        </form>
-        <ul>country is {result}</ul>
-      </>
-    );
+  return (
+    <>
+      <form>
+        <input type="search" onChange={handleChange} /> and press Enter
+      </form>
+      <ul>
+        country is{" "}
+        {countries.map(function (country, index) {
+          if (query.length === 0)
+            return <li key={index}>{country.name.official}</li>;
+          if (
+            country.name.official
+              .toLowerCase()
+              .includes(query.toLocaleLowerCase()) === true
+          )
+            return <li key={index}>{country.name.official}</li>;
+        })}
+      </ul>
+    </>
+  );
 };
 
 export default App;
