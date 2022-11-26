@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Form from "./Form";
+import Search from "./Search";
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -21,22 +23,8 @@ const App = () => {
 
   return (
     <>
-      <form>
-        find countries <input type="search" onChange={handleChange} />
-      </form>
-      <ul>
-        {countries.map(function (country, index) {
-          if (query.length === 0)
-            return <li key={index}>{country.name.official}</li>;
-
-          if (
-            country.name.official
-              .toLowerCase()
-              .includes(query.toLocaleLowerCase()) === true
-          )
-            return <li key={index}>{country.name.official}</li>;
-        })}
-      </ul>
+      <Form handleChange={handleChange} />
+      <Search query={query} countries={countries} />
     </>
   );
 };
