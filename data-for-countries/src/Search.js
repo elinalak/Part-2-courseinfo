@@ -23,8 +23,9 @@ const Search = ({ query, countries }) => {
           ) {
             return (
               <>
-                <li key={index}>{country.name.official}</li>
-                <br /> <br />
+                <h3 className="country" key={index}>
+                  {country.name.official}
+                </h3>
                 <p>capital {country.capital.map((i) => i)}</p>
                 <p>area {country.area}</p>
                 <ul>
@@ -49,7 +50,7 @@ const Search = ({ query, countries }) => {
     return (
       <ul>
         {countries.map(function (country, index) {
-          const liTag = document.querySelectorAll("li");
+          const liTag = document.querySelectorAll(".country");
           console.log(liTag.length);
 
           if (
@@ -57,20 +58,27 @@ const Search = ({ query, countries }) => {
               .toLowerCase()
               .includes(query.toLocaleLowerCase()) === true
           )
-            return <li key={index}>{country.name.official}</li>;
+            return (
+              <li key={index} className="country">
+                {country.name.official}{" "}
+                <span>
+                  <button>+</button>
+                </span>
+              </li>
+            );
         })}
       </ul>
     );
   };
 
   if (query.length === 0) return <MainScreen />;
-  if (document.querySelectorAll("li").length > 10) return <Notification />;
-  if (
+  else if (document.querySelectorAll("li").length > 10) return <Notification />;
+  else if (
     document.querySelectorAll("li").length < 10 &&
     document.querySelectorAll("li").length > 1
   )
     return <Filter />;
-  if (document.querySelectorAll("li").length === 1) return <Content />;
+  else if (document.querySelectorAll("li").length === 1) return <Content />;
   else return <Filter />;
 };
 
